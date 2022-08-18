@@ -56,7 +56,7 @@ func TestServer(t *testing.T) {
 
 	t.Run("should handle request if server is running", func(t *testing.T) {
 
-		// 使用其中一个TCP连接 发送HTTP Request
+		// 使用TCP连接 发送HTTP Request
 		request.Write(conn)
 		// 读取对应的Response
 		resp, err := http.ReadResponse(bufio.NewReader(conn), request)
@@ -102,6 +102,7 @@ func TestServer(t *testing.T) {
 			}
 		}()
 
+		// 断言“拒接请求”返回的response中的内容
 		resp := <-ch
 		assert.Equal(t, http.StatusServiceUnavailable, resp.StatusCode)
 		assert.Contains(t, resp.Status, http.StatusText(http.StatusServiceUnavailable))
